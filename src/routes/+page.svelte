@@ -35,6 +35,10 @@
 	const pokemons = generateRandomPokemonNumbers(20)
 </script>
 
+<svelte:head>
+	<title>Memory Game</title>
+</svelte:head>
+
 <div class="wrapper">
 	{#each pokemons as pokemon, index (index)}
 		<div animate:flip>
