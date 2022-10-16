@@ -37,6 +37,7 @@
 
 <svelte:head>
 	<title>Memory Game</title>
+	<link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/5/53/Pok%C3%A9_Ball_icon.svg" />
 </svelte:head>
 
 <div class="wrapper">
