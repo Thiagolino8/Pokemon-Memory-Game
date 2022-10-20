@@ -12,7 +12,7 @@
 
 	let showMenu = true
 	let started = false
-	let lastGuess: { guessed: Writable<boolean>; fliped: Writable<boolean>; pokemon: number }[] = []
+	let lastGuess: { guessed: Writable<boolean>; fliped: Writable<boolean>; pokemon: number; index: number }[] = []
 	let lastCard: HTMLElement
 	let totalGuessed = 0
 
@@ -38,13 +38,19 @@
 		)
 	}
 
-	const guess = (guessed: Writable<boolean>, fliped: Writable<boolean>, pokemon: number, card: HTMLElement) => {
+	const guess = (
+		guessed: Writable<boolean>,
+		fliped: Writable<boolean>,
+		pokemon: number,
+		card: HTMLElement,
+		index: number
+	) => {
 		fliped.update((value) => !value)
 		if (!lastGuess.length) {
-			lastGuess = [{ guessed, fliped, pokemon }]
+			lastGuess = [{ guessed, fliped, pokemon, index }]
 			return
 		}
-		if (lastGuess[0].pokemon === pokemon) {
+		if (lastGuess[0].pokemon === pokemon && lastGuess[0].index !== index) {
 			lastGuess[0].guessed.set(true)
 			guessed.set(true)
 			lastCard = card
@@ -78,7 +84,15 @@
 	{/if}
 	{#if started}
 		{#each pokemons as pokemon, index (index)}
-			<Card on:outroend={() => (showMenu = true)} {pokemon} {guess} />
+			<Card
+				--pokemonImage={`url(https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${
+					pokemon + 1
+				}.png)`}
+				on:outroend={() => (showMenu = true)}
+				{pokemon}
+				{guess}
+				{index}
+			/>
 		{/each}
 	{/if}
 </div>

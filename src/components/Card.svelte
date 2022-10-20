@@ -3,14 +3,12 @@
 	import { fly } from 'svelte/transition'
 
 	export let pokemon: number
-	export let guess: (guessed: Writable<boolean>, fliped: Writable<boolean>, pokemon: number, card: HTMLElement) => void
+	export let index: number
+	export let guess: (guessed: Writable<boolean>, fliped: Writable<boolean>, pokemon: number, card: HTMLElement, index:number) => void
 	let comparativePokemon = pokemon
 
 	const guessed = writable(false)
 	const fliped = writable(true)
-	$: pokemonImage = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${
-		pokemon + 1
-	}.png`
 
 	$: if (comparativePokemon !== pokemon) {
 		$guessed = false
@@ -25,25 +23,17 @@
 	class="w-28 h-36 relative flex"
 	class:clickable={!$guessed}
 	style:--pokemon={pokemon}
-	on:click={() => $guessed || guess(guessed, fliped, pokemon, card)}
+	on:click={() => $guessed || guess(guessed, fliped, pokemon, card, index)}
 	transition:fly={{ x: -500 }}
 	on:outroend
 >
-	<div bind:this={card} class="frente" class:fliped={$fliped}>
-		<img src={pokemonImage} alt={`pokemon-${pokemon + 1}`} />
-	</div>
-	<div class="verso" style:--direction={-1} class:fliped={!$fliped}>
-		<img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Pok%C3%A9_Ball_icon.svg" alt="pokeball" />
-	</div>
+	<div bind:this={card} class="frente" class:fliped={$fliped} />
+	<div class="verso" style:--direction={-1} class:fliped={!$fliped}/>
 </div>
 
 <style>
 	.clickable {
 		@apply cursor-pointer;
-	}
-
-	img {
-		@apply w-11/12 object-cover;
 	}
 
 	.frente,
@@ -57,14 +47,14 @@
 	}
 
 	.frente {
-		background: linear-gradient(calc(-45deg * var(--pokemon, 1)), #23d5ab, #ee7752, #e73c7e, #23a6d5);
-		background-size: 400% 400%;
+		background: var(--pokemonImage) center no-repeat, linear-gradient(calc(-45deg * var(--pokemon, 1)), #23d5ab, #ee7752, #e73c7e, #23a6d5);
 		animation: gradient 15s ease infinite;
+		background-size: contain, 400% 400%;
 	}
 
 	.verso {
-		background: linear-gradient(calc(-45deg * var(--pokemon, 1)), #ee7752, #e73c7e, #23a6d5, #23d5ab);
-		background-size: 400% 400%;
+		background: url("https://upload.wikimedia.org/wikipedia/commons/5/53/Pok%C3%A9_Ball_icon.svg") center no-repeat, linear-gradient(calc(-45deg * var(--pokemon, 1)), #ee7752, #e73c7e, #23a6d5, #23d5ab);
+		background-size: contain, 400% 400%;
 		animation: gradient 15s ease infinite;
 	}
 
