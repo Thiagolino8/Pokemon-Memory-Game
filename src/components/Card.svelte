@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { writable, type Writable } from 'svelte/store'
-	import { fly } from 'svelte/transition'
+	import { fade, fly } from 'svelte/transition'
 
 	export let pokemon: number
 	export let index: number
@@ -24,7 +24,7 @@
 	class:clickable={!$guessed}
 	style:--pokemon={pokemon}
 	on:click={() => $guessed || guess(guessed, fliped, pokemon, card, index)}
-	transition:fly={{ x: -500 }}
+	transition:fade
 	on:outroend
 >
 	<div bind:this={card} class="frente" class:fliped={$fliped} />
@@ -47,30 +47,18 @@
 	}
 
 	.frente {
-		background: var(--pokemonImage) center no-repeat, linear-gradient(calc(-45deg * var(--pokemon, 1)), #23d5ab, #ee7752, #e73c7e, #23a6d5);
+		background: var(--pokemonImage) center no-repeat, var(--gradient-two);
 		animation: gradient 15s ease infinite;
 		background-size: contain, 400% 400%;
 	}
 
 	.verso {
-		background: url("https://upload.wikimedia.org/wikipedia/commons/5/53/Pok%C3%A9_Ball_icon.svg") center no-repeat, linear-gradient(calc(-45deg * var(--pokemon, 1)), #ee7752, #e73c7e, #23a6d5, #23d5ab);
+		background: url("https://upload.wikimedia.org/wikipedia/commons/5/53/Pok%C3%A9_Ball_icon.svg") center no-repeat, var(--gradient-one);
 		background-size: contain, 400% 400%;
 		animation: gradient 15s ease infinite;
 	}
 
 	.fliped {
 		transform: rotateY(calc(180deg * var(--direction, 1)));
-	}
-
-	@keyframes gradient {
-		0% {
-			background-position: 0% 50%;
-		}
-		50% {
-			background-position: 100% 50%;
-		}
-		100% {
-			background-position: 0% 50%;
-		}
 	}
 </style>

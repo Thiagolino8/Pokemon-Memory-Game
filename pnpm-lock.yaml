@@ -9,11 +9,13 @@ specifiers:
   postcss: ^8.4.18
   svelte: ^3.52.0
   svelte-check: ^2.9.2
+  svelte-confetti: ^1.2.0
   svelte-preprocess: ^4.10.7
   tailwindcss: ^3.2.0
   tslib: ^2.4.0
   typescript: ^4.8.4
   vite: ^3.1.8
+  vite-plugin-windicss: ^1.8.8
 
 devDependencies:
   '@sveltejs/adapter-auto': 1.0.0-next.84
@@ -24,13 +26,19 @@ devDependencies:
   postcss: 8.4.18
   svelte: 3.52.0
   svelte-check: 2.9.2_vidagnlh55bt6yxji7dk5y5wla
+  svelte-confetti: 1.2.0
   svelte-preprocess: 4.10.7_thgq75zisbcmm7d6lsbrpbdhti
   tailwindcss: 3.2.0_postcss@8.4.18
   tslib: 2.4.0
   typescript: 4.8.4
   vite: 3.1.8
+  vite-plugin-windicss: 1.8.8_vite@3.1.8
 
 packages:
+
+  /@antfu/utils/0.5.2:
+    resolution: {integrity: sha512-CQkeV+oJxUazwjlHD0/3ZD08QWKuGQkhnrKo3e6ly5pd48VUpXbb77q0xMU4+vc2CkJnDS02Eq/M9ugyX20XZA==}
+    dev: true
 
   /@cloudflare/workers-types/3.17.0:
     resolution: {integrity: sha512-u0cUQ4ntWFFwn5jx0ETa2ItvwvfOMjyaKF2fX2vFVujrSgNES/PnvRzPAhdt9CMYAMidInm0MGkIjxHRsFBaeg==}
@@ -248,6 +256,30 @@ packages:
       rollup-pluginutils: 2.8.2
     transitivePeerDependencies:
       - encoding
+      - supports-color
+    dev: true
+
+  /@windicss/config/1.8.8:
+    resolution: {integrity: sha512-kNas/zMkwsDFMcJPmHoPDJlQi1MHvYwx8BSxo9JKcbCW7Gaj8Rg2CnEImX5YdT+ZcFQqQ+kUn0Vi/ScsAxhGEw==}
+    dependencies:
+      debug: 4.3.4
+      jiti: 1.16.0
+      windicss: 3.5.6
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
+
+  /@windicss/plugin-utils/1.8.8:
+    resolution: {integrity: sha512-a+npbTKmdrAvnMqzVJvyPa29xyNcPaSkt6qQpgWY9m0WyVlYd9BM8V0+cbqt279fTlvlaZpUs9dqmilB1PUH6g==}
+    dependencies:
+      '@antfu/utils': 0.5.2
+      '@windicss/config': 1.8.8
+      debug: 4.3.4
+      fast-glob: 3.2.12
+      magic-string: 0.26.7
+      micromatch: 4.0.5
+      windicss: 3.5.6
+    transitivePeerDependencies:
       - supports-color
     dev: true
 
@@ -978,9 +1010,18 @@ packages:
     engines: {node: '>=0.12.0'}
     dev: true
 
+  /jiti/1.16.0:
+    resolution: {integrity: sha512-L3BJStEf5NAqNuzrpfbN71dp43mYIcBUlCRea/vdyv5dW/AYa1d4bpelko4SHdY3I6eN9Wzyasxirj1/vv5kmg==}
+    hasBin: true
+    dev: true
+
   /kleur/4.1.5:
     resolution: {integrity: sha512-o+NO+8WrRiQEE4/7nwRJhN1HWpVmJm511pBHUxPLtp0BUISzlBplORYSmTclCnJvQq2tKu/sgl3xVpkc7ZWuQQ==}
     engines: {node: '>=6'}
+    dev: true
+
+  /kolorist/1.6.0:
+    resolution: {integrity: sha512-dLkz37Ab97HWMx9KTes3Tbi3D1ln9fCAy2zr2YVExJasDRPGRaKcoE4fycWNtnCAJfjFqe0cnY+f8KT2JePEXQ==}
     dev: true
 
   /lilconfig/2.0.6:
@@ -1501,6 +1542,10 @@ packages:
       - sugarss
     dev: true
 
+  /svelte-confetti/1.2.0:
+    resolution: {integrity: sha512-6njSCc2mzNQpgxd6VnIkS8yhdbL9np9uTpK6bdmbephmLvI0+km0cBdfuM+MLmceVdW9Frx+ibwCFPDq/dBd1g==}
+    dev: true
+
   /svelte-hmr/0.15.0_svelte@3.52.0:
     resolution: {integrity: sha512-Aw21SsyoohyVn4yiKXWPNCSW2DQNH/76kvUnE9kpt4h9hcg9tfyQc6xshx9hzgMfGF0kVx0EGD8oBMWSnATeOg==}
     engines: {node: ^12.20 || ^14.13.1 || >= 16}
@@ -1667,6 +1712,20 @@ packages:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
     dev: true
 
+  /vite-plugin-windicss/1.8.8_vite@3.1.8:
+    resolution: {integrity: sha512-iyu+ZX0NmhNEUaLPv7xtC+EFRBpWMmw0nhd9a9upayfuNG/thwslKiQKmRB7U/dG0k/2oWLvPDvN/B9i7oRgSA==}
+    peerDependencies:
+      vite: ^2.0.1 || ^3.0.0
+    dependencies:
+      '@windicss/plugin-utils': 1.8.8
+      debug: 4.3.4
+      kolorist: 1.6.0
+      vite: 3.1.8
+      windicss: 3.5.6
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
+
   /vite/3.1.8:
     resolution: {integrity: sha512-m7jJe3nufUbuOfotkntGFupinL/fmuTNuQmiVE7cH2IZMuf4UbfbGYMUT3jVWgGYuRVLY9j8NnrRqgw5rr5QTg==}
     engines: {node: ^14.18.0 || >=16.0.0}
@@ -1709,6 +1768,12 @@ packages:
     resolution: {integrity: sha512-eDMORYaPNZ4sQIuuYPDHdQvf4gyCF9rEEV/yPxGfwPkRodwEgiMUUXTx/dex+Me0wxx53S+NgUHaP7y3MGlDmg==}
     dependencies:
       string-width: 4.2.3
+    dev: true
+
+  /windicss/3.5.6:
+    resolution: {integrity: sha512-P1mzPEjgFMZLX0ZqfFht4fhV/FX8DTG7ERG1fBLiWvd34pTLVReS5CVsewKn9PApSgXnVfPWwvq+qUsRwpnwFA==}
+    engines: {node: '>= 12'}
+    hasBin: true
     dev: true
 
   /worktop/0.8.0-next.14:
