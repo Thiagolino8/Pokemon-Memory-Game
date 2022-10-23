@@ -1,4 +1,4 @@
-import adapter from '@sveltejs/adapter-vercel';
+import adapter from '@sveltejs/adapter-static'
 import preprocess from 'svelte-preprocess';
 
 /** @type {import('@sveltejs/kit').Config} */
@@ -7,10 +7,13 @@ const config = {
 
 	kit: {
 		adapter: adapter({
-			edge: true,
-			split: true,
-		})
-	}
-};
+			pages: 'build',
+			assets: 'build',
+			fallback: null,
+			precompress: true,
+			strict: true,
+		}),
+	},
+}
 
 export default config;

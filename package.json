@@ -10,9 +10,8 @@
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
 	},
 	"devDependencies": {
-		"@sveltejs/adapter-vercel": "1.0.0-next.80",
+		"@sveltejs/adapter-static": "1.0.0-next.46",
 		"@sveltejs/kit": "1.0.0-next.522",
-		"@types/node": "^18.11.3",
 		"daisyui": "^2.33.0",
 		"svelte": "^3.52.0",
 		"svelte-check": "^2.9.2",

@@ -1,9 +1,9 @@
 lockfileVersion: 5.4
 
 specifiers:
+  '@sveltejs/adapter-static': 1.0.0-next.46
   '@sveltejs/adapter-vercel': 1.0.0-next.80
   '@sveltejs/kit': 1.0.0-next.522
-  '@types/node': ^18.11.3
   daisyui: ^2.33.0
   svelte: ^3.52.0
   svelte-check: ^2.9.2
@@ -16,9 +16,9 @@ specifiers:
   windicss: ^3.5.6
 
 devDependencies:
+  '@sveltejs/adapter-static': 1.0.0-next.46
   '@sveltejs/adapter-vercel': 1.0.0-next.80
   '@sveltejs/kit': 1.0.0-next.522_svelte@3.52.0+vite@3.1.8
-  '@types/node': 18.11.3
   daisyui: 2.33.0
   svelte: 3.52.0
   svelte-check: 2.9.2_svelte@3.52.0
@@ -119,6 +119,10 @@ packages:
     dependencies:
       estree-walker: 2.0.2
       picomatch: 2.3.1
+    dev: true
+
+  /@sveltejs/adapter-static/1.0.0-next.46:
+    resolution: {integrity: sha512-8BlgwD3fjAbtUUgvREjrq5okZSXMTU/Qla99RhTqGaFo+uOrUzguKrXvjeaD4GzxQZdQUNyTX9hKT0V7tX6TMw==}
     dev: true
 
   /@sveltejs/adapter-vercel/1.0.0-next.80:
