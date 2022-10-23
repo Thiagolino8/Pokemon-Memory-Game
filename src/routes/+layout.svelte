@@ -20,14 +20,23 @@
 	}
 
 	p {
-		@apply m-1 text-white text-3xl md:text-6xl font-bold;
+		@apply p-1 text-white font-bold;
 	}
 
 	button {
-		@apply btn m-1 text-white font-bold border-transparent border-0;
+		@apply btn text-white font-bold border-transparent border-0;
+	}
+
+	.backgroundButton {
 		background: var(--gradient-two);
 			animation: gradient 15s ease infinite;
 			background-size: 400% 400%;
+	}
+
+	.cover {
+		background: var(--gradient-one);
+		background-size: 400% 400%;
+		animation: gradient 15s ease infinite;
 	}
 
 	@keyframes gradient {

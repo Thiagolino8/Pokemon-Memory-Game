@@ -1,23 +1,17 @@
 <script lang="ts">
-	import { invalidateAll } from '$app/navigation'
-  import Pokeballs from '../components/Pokeballs.svelte'
-	import { Confetti } from 'svelte-confetti'
 	import { fade } from 'svelte/transition'
 	import Card from '../components/Card.svelte'
-	import type { PageData } from './$types'
-
-	export let data: PageData
-	$: ({ pokemons } = data)
+	import { generateRandomPokemonNumbers } from '../lib/generatePokemons'
+  import Victory from '../components/Victory.svelte'
+  import { difficulty, screen } from '../lib/store'
+  import Menu from '../components/Menu.svelte'
 
 	const favicon = 'https://upload.wikimedia.org/wikipedia/commons/5/53/Pok%C3%A9_Ball_icon.svg'
 
-	let confetti = false
-	let showMenu = true
-	let started = false
+	$: pokemons = generateRandomPokemonNumbers($difficulty * 10)
 	let lastGuess: number | null = null
 	let lastCard: Card['card']
 	let totalGuessed = 0
-	let endGame = false
 	let cards: { [index: number]: Card } = {}
 
 	$: if (totalGuessed === pokemons.length / 2) resetGame()
@@ -30,13 +24,12 @@
 					setTimeout(() => {
 						lastGuess = null
 						totalGuessed = 0
-						invalidateAll()
-						confetti = true
+						pokemons = generateRandomPokemonNumbers($difficulty * 10)
 						lastCard &&
 							lastCard.addEventListener(
 								'transitionend',
 								() => {
-									started = false
+									$screen.game = false
 								},
 								{ once: true }
 							)
@@ -55,7 +48,6 @@
 			cards[lastGuess].guessed = true
 			cards[index].guessed = true
 			lastCard = cards[index].card
-			console.log(cards[index].card, lastCard)
 			totalGuessed++
 		} else {
 			const lastGuessFliped = lastGuess
@@ -74,18 +66,10 @@
 </svelte:head>
 
 <div class="flex flex-wrap justify-center items-center w-screen overflow-x-hidden h-screen">
-	{#if showMenu}
-		<div
-			class="flex flex-col justify-center items-center w-screen h-screen cover"
-			transition:fade
-			on:outroend={() => (started = true)}
-		>
-			<p>Pokemon Memory Game</p>
-			<button on:click={() => (showMenu = false)}> Start </button>
-			<Pokeballs/>
-		</div>
+	{#if $screen.menu}
+	<Menu />
 	{/if}
-	{#if started}
+	{#if $screen.game}
 		<div class="p-3 flex justify-center items-center gap-4 flex-wrap" in:fade>
 			{#each pokemons as pokemon, index (index)}
 				<Card
@@ -93,46 +77,14 @@
 						pokemon + 1
 					}.png)`}
 					bind:this={cards[index]}
-					on:outroend={() => (endGame = true)}
+					on:outroend={() => ($screen.victory = true)}
 					{pokemon}
 					on:click={() => guess(index)}
 				/>
 			{/each}
 		</div>
 	{/if}
-	{#if endGame}
-		<div
-			class="w-screen h-screen flex flex-col flex-1 justify-center items-center hero cover"
-			transition:fade
-			on:outroend={() => (started = true)}
-		>
-			<p class="animate-bounce">You won the game, congratulations!</p>
-			<p />
-			<p>You can play again if you want.</p>
-			<button
-				on:click={() => {
-					endGame = false
-					confetti = false
-				}}
-			>
-				Play Again
-			</button>
-		</div>
+	{#if $screen.victory}
+	<Victory/>
 	{/if}
 </div>
-
-{#if confetti}
-	<div class="fixed left-0 h-screen w-screen flex justify-center overflow-hidden pointer-events-none top-[-50px]">
-		<Confetti x={[-5, 5]} y={[0, 0.1]} delay={[500, 2000]} infinite duration="5000" amount="200" fallDistance="100vh" />
-		<Confetti x={[-5, 5]} y={[0, 0.1]} delay={[500, 2000]} infinite duration="5000" amount="200" fallDistance="100vh" />
-		<Confetti x={[-5, 5]} y={[0, 0.1]} delay={[500, 2000]} infinite duration="5000" amount="200" fallDistance="100vh" />
-	</div>
-{/if}
-
-<style>
-	.cover {
-		background: var(--gradient-one);
-		background-size: 400% 400%;
-		animation: gradient 15s ease infinite;
-	}
-</style>

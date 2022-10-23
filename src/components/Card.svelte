@@ -19,7 +19,7 @@
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <div
-	class="w-28 h-36 relative flex"
+	class="card h-20 md:h-36 relative flex"
 	class:clickable={!guessed}
 	style:--pokemon={pokemon}
 	on:click
@@ -31,6 +31,10 @@
 </div>
 
 <style>
+	.card {
+		aspect-ratio: 7/9;
+	}
+
 	.clickable {
 		@apply cursor-pointer;
 	}
