@@ -37,27 +37,25 @@
 
 	.frente,
 	.verso {
-		@apply w-full h-full absolute flex items-center justify-center rounded-lg;
-		backface-visibility: hidden;
-		transition: transform 0.5s;
-		transform-style: preserve-3d;
-		background-clip: padding-box;
-		box-shadow: #23a6d5 0 0.5rem 1rem -0.5rem;
+		@apply w-full h-full absolute flex items-center justify-center rounded-lg backface-hidden preserve-3d shadow-md bg-clip-padding shadow-blue-500 transition-transform duration-500;
+	}
+
+	.fliped {
+		@apply transform-gpu;
 	}
 
 	.frente {
+		@apply rotate-y-180;
 		background: var(--pokemonImage) center no-repeat, var(--gradient-two);
 		animation: gradient 15s ease infinite;
 		background-size: contain, 400% 400%;
 	}
 
 	.verso {
+		@apply -rotate-y-180;
 		background: url("https://upload.wikimedia.org/wikipedia/commons/5/53/Pok%C3%A9_Ball_icon.svg") center no-repeat, var(--gradient-one);
 		background-size: contain, 400% 400%;
 		animation: gradient 15s ease infinite;
 	}
 
-	.fliped {
-		transform: rotateY(calc(180deg * var(--direction, 1)));
-	}
 </style>

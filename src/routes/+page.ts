@@ -9,6 +9,6 @@ const generateRandomPokemonNumbers = (size: number) => {
 }
 
 export const load: PageLoad = async () => {
-	const pokemons = generateRandomPokemonNumbers(2)
+	const pokemons = generateRandomPokemonNumbers(20)
 	return {pokemons}
 }
