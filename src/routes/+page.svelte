@@ -14,7 +14,7 @@
 	let showMenu = true
 	let started = false
 	let lastGuess: number | null = null
-	let lastCard: HTMLElement | null = null
+	let lastCard: Card['card']
 	let totalGuessed = 0
 	let direction = 1
 	let endGame = false
@@ -54,7 +54,7 @@
 		if (cards[lastGuess].pokemon === cards[index].pokemon && lastGuess !== index) {
 			cards[lastGuess].guessed = true
 			cards[index].guessed = true
-			lastCard = cards[index].card!
+			lastCard = cards[index].card
 			console.log(cards[index].card, lastCard)
 			totalGuessed++
 		} else {
