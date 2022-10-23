@@ -20,7 +20,6 @@
 	}
 
 	.positioner-inner {
-		animation: wobble 2s ease-in-out alternate infinite;
 		animation-delay: inherit;
 	}
 
@@ -40,19 +39,9 @@
 		from {
       transform: translate3d(0, calc((-2.5 * var(--pokeball-size)) - 100vh), 0);
 		}
-    
+
 		to {
       transform: translate3d(0, 0, 0);
-		}
-	}
-
-	@keyframes wobble {
-		from {
-			transform: translate3d(0, 0, 0);
-		}
-
-		to {
-			transform: translate3d(42px, 0, 0);
 		}
 	}
 </style>
