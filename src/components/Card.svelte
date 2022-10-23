@@ -53,7 +53,7 @@
 
 	.verso {
 		@apply -rotate-y-180;
-		background: url("https://upload.wikimedia.org/wikipedia/commons/5/53/Pok%C3%A9_Ball_icon.svg") center no-repeat, var(--gradient-one);
+		background: var(--pokeball-image), var(--gradient-one);
 		background-size: contain, 400% 400%;
 		animation: gradient 15s ease infinite;
 	}

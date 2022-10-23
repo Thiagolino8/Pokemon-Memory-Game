@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { invalidateAll } from '$app/navigation'
+  import Pokeballs from '../components/Pokeballs.svelte'
 	import { Confetti } from 'svelte-confetti'
-	import { fade, fly } from 'svelte/transition'
+	import { fade } from 'svelte/transition'
 	import Card from '../components/Card.svelte'
 	import type { PageData } from './$types'
 
@@ -81,6 +82,7 @@
 		>
 			<p>Pokemon Memory Game</p>
 			<button on:click={() => (showMenu = false)}> Start </button>
+			<Pokeballs/>
 		</div>
 	{/if}
 	{#if started}
