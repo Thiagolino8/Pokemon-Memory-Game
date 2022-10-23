@@ -19,7 +19,7 @@
 	}
 
 	p {
-		@apply m-1 text-white text-6xl font-bold;
+		@apply m-1 text-white text-3xl md:text-6xl font-bold;
 	}
 
 	button {

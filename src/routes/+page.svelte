@@ -16,7 +16,6 @@
 	let lastGuess: number | null = null
 	let lastCard: Card['card']
 	let totalGuessed = 0
-	let direction = 1
 	let endGame = false
 	let cards: { [index: number]: Card } = {}
 
@@ -73,7 +72,7 @@
 	<link rel="icon" href={favicon} />
 </svelte:head>
 
-<div class="flex flex-wrap justify-center items-center w-screen overflow-hidden h-screen gap-4">
+<div class="flex flex-wrap justify-center items-center w-screen overflow-x-hidden h-screen">
 	{#if showMenu}
 		<div
 			class="flex flex-col justify-center items-center w-screen h-screen cover"
@@ -85,15 +84,8 @@
 		</div>
 	{/if}
 	{#if started}
-		{#each pokemons as pokemon, index (index)}
-			<div
-				class="flex justify-start items-start"
-				on:introend={() => {
-					direction = -1
-				}}
-				in:fly={{ y: 500 * direction }}
-				out:fly={{ y: 500 * direction }}
-			>
+		<div class="p-3 flex justify-center items-center gap-4 flex-wrap" in:fade>
+			{#each pokemons as pokemon, index (index)}
 				<Card
 					--pokemonImage={`url(https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${
 						pokemon + 1
@@ -103,8 +95,8 @@
 					{pokemon}
 					on:click={() => guess(index)}
 				/>
-			</div>
-		{/each}
+			{/each}
+		</div>
 	{/if}
 	{#if endGame}
 		<div
