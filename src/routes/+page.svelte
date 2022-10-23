@@ -1,10 +1,9 @@
 <script lang="ts">
 	import { invalidateAll } from '$app/navigation'
-	import type { Writable } from 'svelte/store'
+	import { Confetti } from 'svelte-confetti'
 	import { fade, fly } from 'svelte/transition'
 	import Card from '../components/Card.svelte'
 	import type { PageData } from './$types'
-	import { Confetti } from 'svelte-confetti'
 
 	export let data: PageData
 	$: ({ pokemons } = data)
@@ -14,60 +13,58 @@
 	let confetti = false
 	let showMenu = true
 	let started = false
-	let lastGuess: { guessed: Writable<boolean>; fliped: Writable<boolean>; pokemon: number; index: number }[] = []
-	let lastCard: HTMLElement
+	let lastGuess: number | null = null
+	let lastCard: HTMLElement | null = null
 	let totalGuessed = 0
 	let direction = 1
 	let endGame = false
+	let cards: { [index: number]: Card } = {}
 
 	$: if (totalGuessed === pokemons.length / 2) resetGame()
 
 	const resetGame = () => {
-		lastCard.addEventListener(
-			'transitionend',
-			() =>
-				setTimeout(() => {
-					lastGuess = []
-					totalGuessed = 0
-					invalidateAll()
-					confetti = true
-					lastCard.addEventListener(
-						'transitionend',
-						() => {
-							started = false
-						},
-						{ once: true }
-					)
-				}, 1000),
-			{ once: true }
-		)
+		lastCard &&
+			lastCard.addEventListener(
+				'transitionend',
+				() =>
+					setTimeout(() => {
+						lastGuess = null
+						totalGuessed = 0
+						invalidateAll()
+						confetti = true
+						lastCard &&
+							lastCard.addEventListener(
+								'transitionend',
+								() => {
+									started = false
+								},
+								{ once: true }
+							)
+					}, 1000),
+				{ once: true }
+			)
 	}
 
-	const guess = (
-		guessed: Writable<boolean>,
-		fliped: Writable<boolean>,
-		pokemon: number,
-		card: HTMLElement,
-		index: number
-	) => {
-		fliped.update((value) => !value)
-		if (!lastGuess.length) {
-			lastGuess = [{ guessed, fliped, pokemon, index }]
+	const guess = (index: number) => {
+		cards[index].fliped = !cards[index].fliped
+		if (lastGuess === null) {
+			lastGuess = index
 			return
 		}
-		if (lastGuess[0].pokemon === pokemon && lastGuess[0].index !== index) {
-			lastGuess[0].guessed.set(true)
-			guessed.set(true)
-			lastCard = card
+		if (cards[lastGuess].pokemon === cards[index].pokemon && lastGuess !== index) {
+			cards[lastGuess].guessed = true
+			cards[index].guessed = true
+			lastCard = cards[index].card!
+			console.log(cards[index].card, lastCard)
 			totalGuessed++
 		} else {
-			const lastGuessFliped = lastGuess[0].fliped
+			const lastGuessFliped = lastGuess
 			setTimeout(() => {
-				fliped.update((value) => !value)
-				lastGuessFliped.update((value) => !value)
+				cards[index].fliped = !cards[index].fliped
+				cards[lastGuessFliped].fliped = !cards[lastGuessFliped].fliped
 			}, 1000)
 		}
-		lastGuess = []
+		lastGuess = null
 	}
 </script>
 
@@ -101,10 +98,10 @@
 					--pokemonImage={`url(https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${
 						pokemon + 1
 					}.png)`}
+					bind:this={cards[index]}
 					on:outroend={() => (endGame = true)}
 					{pokemon}
-					{guess}
-					{index}
+					on:click={() => guess(index)}
 				/>
 			</div>
 		{/each}
@@ -131,18 +128,7 @@
 </div>
 
 {#if confetti}
-	<div
-		style="
-position: fixed;
-top: -50px;
-left: 0;
-height: 100vh;
-width: 100vw;
-display: flex;
-justify-content: center;
-overflow: hidden;
-pointer-events: none;"
-	>
+	<div class="fixed left-0 h-screen w-screen flex justify-center overflow-hidden pointer-events-none top-[-50px]">
 		<Confetti x={[-5, 5]} y={[0, 0.1]} delay={[500, 2000]} infinite duration="5000" amount="200" fallDistance="100vh" />
 		<Confetti x={[-5, 5]} y={[0, 0.1]} delay={[500, 2000]} infinite duration="5000" amount="200" fallDistance="100vh" />
 		<Confetti x={[-5, 5]} y={[0, 0.1]} delay={[500, 2000]} infinite duration="5000" amount="200" fallDistance="100vh" />

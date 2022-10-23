@@ -1,34 +1,33 @@
 <script lang="ts">
-	import { writable, type Writable } from 'svelte/store'
-	import { fade, fly } from 'svelte/transition'
+	import { fade } from 'svelte/transition'
 
 	export let pokemon: number
-	export let index: number
-	export let guess: (guessed: Writable<boolean>, fliped: Writable<boolean>, pokemon: number, card: HTMLElement, index:number) => void
 	let comparativePokemon = pokemon
 
-	const guessed = writable(false)
-	const fliped = writable(true)
+	export let guessed = false
+	export let fliped = true
 
 	$: if (comparativePokemon !== pokemon) {
-		$guessed = false
-		$fliped = true
+		guessed = false
+		fliped = true
 	}
 
-	let card: HTMLElement
+	export let card: HTMLElement | null = null
 </script>
+
+<svelte:options accessors/>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <div
 	class="w-28 h-36 relative flex"
-	class:clickable={!$guessed}
+	class:clickable={!guessed}
 	style:--pokemon={pokemon}
-	on:click={() => $guessed || guess(guessed, fliped, pokemon, card, index)}
+	on:click
 	transition:fade
 	on:outroend
 >
-	<div bind:this={card} class="frente" class:fliped={$fliped} />
-	<div class="verso" style:--direction={-1} class:fliped={!$fliped}/>
+	<div bind:this={card} class="frente" class:fliped={fliped} />
+	<div class="verso" style:--direction={-1} class:fliped={!fliped}/>
 </div>
 
 <style>
