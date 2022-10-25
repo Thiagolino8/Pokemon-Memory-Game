@@ -2,9 +2,9 @@
 	import { fade } from 'svelte/transition'
 	import Card from '../components/Card.svelte'
 	import { generateRandomPokemonNumbers } from '../lib/generatePokemons'
-  import Victory from '../components/Victory.svelte'
-  import { difficulty, screen } from '../lib/store'
-  import Menu from '../components/Menu.svelte'
+	import Victory from '../components/Victory.svelte'
+	import { difficulty, screen } from '../lib/store'
+	import Menu from '../components/Menu.svelte'
 
 	const favicon = 'https://upload.wikimedia.org/wikipedia/commons/5/53/Pok%C3%A9_Ball_icon.svg'
 
@@ -67,17 +67,20 @@
 
 <div class="flex flex-wrap justify-center items-center w-screen overflow-x-hidden h-screen">
 	{#if $screen.menu}
-	<Menu />
+		<Menu />
 	{/if}
 	{#if $screen.game}
-		<div class="p-3 flex justify-center items-center gap-4 flex-wrap" in:fade>
+		<div
+			class="p-3 flex justify-center items-center gap-4 flex-wrap"
+			in:fade
+			on:outroend={() => ($screen.victory = true)}
+		>
 			{#each pokemons as pokemon, index (index)}
 				<Card
 					--pokemonImage={`url(https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${
 						pokemon + 1
 					}.png)`}
 					bind:this={cards[index]}
-					on:outroend={() => ($screen.victory = true)}
 					{pokemon}
 					on:click={() => guess(index)}
 				/>
@@ -85,6 +88,6 @@
 		</div>
 	{/if}
 	{#if $screen.victory}
-	<Victory/>
+		<Victory />
 	{/if}
 </div>
