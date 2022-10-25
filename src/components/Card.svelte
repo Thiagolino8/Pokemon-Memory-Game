@@ -1,5 +1,8 @@
 <script lang="ts">
-	import { fade } from 'svelte/transition'
+  import { createEventDispatcher } from 'svelte'
+	import { fade, fly } from 'svelte/transition'
+	
+	const event = createEventDispatcher()
 
 	export let pokemon: number
 	let comparativePokemon = pokemon
@@ -23,10 +26,9 @@
 	class:clickable={!guessed}
 	style:--pokemon={pokemon}
 	on:click
-	transition:fade
-	on:outroend
+	transition:fly={{x: -200}}
 >
-	<div bind:this={card} class="frente" class:fliped={fliped} />
+	<div bind:this={card} class="frente" class:fliped={fliped} on:transitionend={() => event('flipend')} />
 	<div class="verso" style:--direction={-1} class:fliped={!fliped}/>
 </div>
 
