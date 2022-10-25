@@ -7,7 +7,7 @@
 	import Menu from '../components/Menu.svelte'
 
 	const favicon = 'https://upload.wikimedia.org/wikipedia/commons/5/53/Pok%C3%A9_Ball_icon.svg'
-
+	$: console.table($screen)
 	$: pokemons = generateRandomPokemonNumbers($difficulty * 10)
 	let lastGuess: number | null = null
 	let lastCard: Card['card']
@@ -39,6 +39,7 @@
 	}
 
 	const guess = (index: number) => {
+		if (cards[index].guessed) return
 		cards[index].fliped = !cards[index].fliped
 		if (lastGuess === null) {
 			lastGuess = index
@@ -72,14 +73,12 @@
 	{#if $screen.game}
 		<div
 			class="p-3 flex justify-center items-center gap-4 flex-wrap"
-			in:fade
+			transition:fade
 			on:outroend={() => ($screen.victory = true)}
 		>
 			{#each pokemons as pokemon, index (index)}
 				<Card
-					--pokemonImage={`url(https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${
-						pokemon + 1
-					}.png)`}
+					--pokemonImage={`url(https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon}.png)`}
 					bind:this={cards[index]}
 					{pokemon}
 					on:click={() => guess(index)}
