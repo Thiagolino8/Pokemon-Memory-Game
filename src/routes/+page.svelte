@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { fade } from 'svelte/transition'
 	import Card from '../components/Card.svelte'
 	import { generateRandomPokemonNumbers } from '../lib/generatePokemons'
 	import Victory from '../components/Victory.svelte'
@@ -13,7 +12,8 @@
 	let lastGuess: number | null = null
 	let lastCard: Card['card']
 	let totalGuessed = 0
-	let showCards = false
+	let width: number
+	let height: number
 	let cards: { [index: number]: Card } = {}
 
 	const distribute = (_node: HTMLElement) => {
@@ -72,6 +72,13 @@
 		}
 		lastGuess = null
 	}
+	$: cardWidth = width > 770 ? 128 : 60
+	$: cardHeight = (cardWidth / 7) * 9
+	$: padding = width > 770 ? 16 : 8
+	$: totalInLine = ~~((width - padding * 2) / cardWidth)
+	$: gapSize = width > 770 ? 16 : 8
+	$: rows = pokemons.length % totalInLine === 0 ? pokemons.length / totalInLine : ~~(pokemons.length / totalInLine) + 1
+	$: columns = pokemons.length % rows === 0 ? pokemons.length / rows : ~~(pokemons.length / rows) + 1
 </script>
 
 <svelte:head>
@@ -79,20 +86,26 @@
 	<link rel="icon" href={favicon} />
 </svelte:head>
 
+<svelte:window bind:innerWidth={width} bind:innerHeight={height} />
+
 <div class="flex flex-wrap justify-center items-start w-screen overflow-x-hidden h-screen">
 	{#if $screen.menu}
 		<Menu />
 	{/if}
 	{#if $screen.game}
 		<div
-			class="p-3 flex w-screen justify-start items-start gap-4 flex-wrap"
+			class="p-2 md:p-4 min-h-screen place-content-center grid game gap-2 md:gap-4 flex-wrap"
+			style:--grid-cols={columns}
+			style:--grid-rows={rows}
+			style:--card-width={`${cardWidth - gapSize}px`}
+			style:--card-height={`${cardHeight - gapSize}px`}
 			transition:distribute
-			on:introend={() => (showCards = true)}
 			on:outroend={() => ($screen.victory = true)}
 		>
 			{#each pokemonList as pokemon, index (index)}
 				<div animate:flip>
 					<Card
+						--index={index}
 						--pokemonImage={`url(https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon}.png)`}
 						bind:this={cards[index]}
 						{pokemon}
@@ -106,3 +119,11 @@
 		<Victory />
 	{/if}
 </div>
+
+<style>
+	.game {
+		grid-template-columns: repeat(var(--grid-cols), var(--card-width));
+		grid-template-rows: repeat(var(--grid-rows), var(--card-height));
+		place-content: center;
+	}
+</style>

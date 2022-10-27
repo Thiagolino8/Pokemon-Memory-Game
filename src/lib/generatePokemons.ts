@@ -7,10 +7,10 @@ export const generateRandomPokemonNumbers = (size: number) => {
 }
 
 const shuffle = (array: number[]) => {
-	return array.reduce((acc, _curr, index, array) => {
-		const randomPosition = Math.floor((array.length - index) * Math.random())
-		acc.push(array.at(randomPosition)!)
-		array.splice(randomPosition, 1)
-		return acc
-	}, [] as number[])
+	array.forEach((_, i) => {
+		const j = Math.floor(Math.random() * array.length)
+		;[array[i], array[j]] = [array[j], array[i]]
+	})
+
+	return array
 }
