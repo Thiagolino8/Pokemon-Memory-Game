@@ -24,7 +24,7 @@
 			tick: (t: number) => {
 				pokemonList = pokemons.slice(0, ~~(t * pokemons.length))
 			},
-			css: (t: number) => `transform: translate3d(0, ${(height * event) * (1 - t * $direction)}px, 0)`,
+			css: (t: number) => `transform: translate3d(0, ${(height / 2) * event * (1 - t * $direction)}px, 0)`,
 		}
 	}
 
@@ -96,7 +96,7 @@
 	{/if}
 	{#if $screen === SCREEN.GAME}
 		<div
-			class="p-2 md:p-4 absolute min-h-screen place-content-center grid game gap-2 md:gap-4 flex-wrap"
+			class="p-2 md:p-4 absolute min-h-screen place-content-center grid game gap-2 md:gap-4 flex-wrap place-contents-center place-items-center"
 			style:--grid-cols={columns}
 			style:--grid-rows={rows}
 			style:--card-width={`${cardWidth - gapSize}px`}
@@ -125,6 +125,5 @@
 	.game {
 		grid-template-columns: repeat(var(--grid-cols), var(--card-width));
 		grid-template-rows: repeat(var(--grid-rows), var(--card-height));
-		place-content: center;
 	}
 </style>
