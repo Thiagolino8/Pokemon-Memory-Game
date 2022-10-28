@@ -1,3 +1,5 @@
+<svelte:options accessors />
+
 <script lang="ts">
 	import { fly } from 'svelte/transition'
 
@@ -15,18 +17,16 @@
 	export let card: HTMLElement | null = null
 </script>
 
-<svelte:options accessors/>
-
-<!-- svelte-ignore a11y-click-events-have-key-events -->
 <div
 	class="card w-12 md:w-28 relative flex"
 	class:clickable={!guessed}
 	style:--pokemon={pokemon}
 	on:click
-	transition:fly={{x: -200}}
+	on:keypress
+	transition:fly={{ x: -200 }}
 >
-	<div bind:this={card} class="frente" class:fliped={fliped} />
-	<div class="verso" style:--direction={-1} class:fliped={!fliped}/>
+	<div bind:this={card} class="frente" class:fliped />
+	<div class="verso" style:--direction={-1} class:fliped={!fliped} />
 </div>
 
 <style>
@@ -60,5 +60,4 @@
 		background-size: contain, 400% 400%;
 		animation: gradient 15s ease infinite;
 	}
-
 </style>

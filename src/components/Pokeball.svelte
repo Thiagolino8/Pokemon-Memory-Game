@@ -1,6 +1,6 @@
 <div class="positioner">
 	<div class="positioner-inner">
-			<div class="pokeball" />
+		<div class="pokeball" />
 	</div>
 </div>
 
@@ -26,7 +26,7 @@
 	.pokeball {
 		width: var(--pokeball-size);
 		height: var(--pokeball-size);
-		background: var(--pokeball-image)
+		background: var(--pokeball-image);
 	}
 
 	@media (prefers-reduced-motion: reduce) {
@@ -37,11 +37,11 @@
 
 	@keyframes position {
 		from {
-      transform: translate3d(0, calc((-2.5 * var(--pokeball-size)) - 100vh), 0);
+			transform: translate3d(0, calc((-2.5 * var(--pokeball-size)) - 100vh), 0);
 		}
 
 		to {
-      transform: translate3d(0, 0, 0);
+			transform: translate3d(0, 0, 0);
 		}
 	}
 </style>

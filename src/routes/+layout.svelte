@@ -1,5 +1,5 @@
 <script lang="ts">
-  import "virtual:windi.css"
+	import 'virtual:windi.css'
 </script>
 
 <slot />
@@ -8,7 +8,8 @@
 	:root {
 		--gradient-one: linear-gradient(calc(-45deg * var(--pokemon, 1)), #ee7752, #e73c7e, #23a6d5, #23d5ab);
 		--gradient-two: linear-gradient(calc(-45deg * var(--pokemon, 1)), #23d5ab, #ee7752, #e73c7e, #23a6d5);
-		--pokeball-image: url("https://upload.wikimedia.org/wikipedia/commons/5/53/Pok%C3%A9_Ball_icon.svg") center no-repeat
+		--pokeball-image: url('https://upload.wikimedia.org/wikipedia/commons/5/53/Pok%C3%A9_Ball_icon.svg') center
+			no-repeat;
 	}
 
 	* {
@@ -29,8 +30,8 @@
 
 	.backgroundButton {
 		background: var(--gradient-two);
-			animation: gradient 15s ease infinite;
-			background-size: 400% 400%;
+		animation: gradient 15s ease infinite;
+		background-size: 400% 400%;
 	}
 
 	.cover {

@@ -1,16 +1,16 @@
 <script lang="ts">
-	import { screen, direction } from '../lib/store'
-	import { fly } from 'svelte/transition'
+	import { SCREEN } from '$lib/gameStatus'
 	import { Confetti } from 'svelte-confetti'
-  import { SCREEN } from '$lib/gameStatus'
+	import { fly } from 'svelte/transition'
+	import { direction, screen } from '../lib/store'
 
 	export let height: number
 </script>
 
 <div
 	class="w-screen absolute h-screen flex flex-col flex-1 justify-center items-center hero cover gap-3"
-			in:fly={{y: height * $direction, duration: 1000}}
-			out:fly={{y: -height * $direction, duration: 1000}}
+	in:fly={{ y: height * $direction, duration: 1000 }}
+	out:fly={{ y: -height * $direction, duration: 1000 }}
 >
 	<p class="animate-bounce text-3xl md:text-6xl">You won the game, congratulations!</p>
 	<p class="text-2xl md:text-5xl">You can play again if you want.</p>

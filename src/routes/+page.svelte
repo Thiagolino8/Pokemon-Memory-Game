@@ -1,11 +1,11 @@
 <script lang="ts">
-	import Card from '../components/Card.svelte'
-	import { generateRandomPokemonNumbers } from '../lib/generatePokemons'
-	import Victory from '../components/Victory.svelte'
-	import { difficulty, screen, direction } from '../lib/store'
-	import Menu from '../components/Menu.svelte'
-	import { flip } from 'svelte/animate'
 	import { SCREEN } from '$lib/gameStatus'
+	import { flip } from 'svelte/animate'
+	import Card from '../components/Card.svelte'
+	import Menu from '../components/Menu.svelte'
+	import Victory from '../components/Victory.svelte'
+	import { generateRandomPokemonNumbers } from '../lib/generatePokemons'
+	import { difficulty, direction, screen } from '../lib/store'
 
 	const favicon = 'https://upload.wikimedia.org/wikipedia/commons/5/53/Pok%C3%A9_Ball_icon.svg'
 	$: pokemons = generateRandomPokemonNumbers($difficulty * 10)
