@@ -1,17 +1,18 @@
 <script lang="ts">
-  import { fade } from "svelte/transition"
+  import { fly } from "svelte/transition"
 
-  import { difficulty, screen } from '../lib/store'
+  import { difficulty, screen, direction } from '../lib/store'
 
-  import { DIFFICULTY } from "../lib/gameStatus"
+  import { DIFFICULTY, SCREEN } from "../lib/gameStatus"
   import Pokeballs from "./Pokeballs.svelte"
 
+	export let height: number
 </script>
 
 		<div
-			class="flex flex-col justify-center items-center w-screen h-screen cover"
-			transition:fade
-			on:outroend={() => ($screen.game = true)}
+			class="flex flex-col absolute justify-center items-center w-screen h-screen cover"
+			in:fly={{y: height * $direction, duration: 1000}}
+			out:fly={{y: height * -$direction, duration: 1000}}
 		>
 			<p class="text-3xl md:text-6xl">Pokemon Memory Game</p>
 			<p class="text-2xl md:text-5xl">Choose difficulty</p>
@@ -32,6 +33,6 @@
 					class={`btn ${$difficulty === DIFFICULTY.HARD ? 'btn-active' : ''}`}>Hard</button
 				>
 			</div>
-			<button class="backgroundButton" on:click={() => ($screen.menu = false)}> Start </button>
+			<button class="backgroundButton" on:click={() => ($screen = SCREEN.GAME)}> Start </button>
 			<Pokeballs />
 		</div>

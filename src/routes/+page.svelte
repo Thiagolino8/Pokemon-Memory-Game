@@ -2,9 +2,10 @@
 	import Card from '../components/Card.svelte'
 	import { generateRandomPokemonNumbers } from '../lib/generatePokemons'
 	import Victory from '../components/Victory.svelte'
-	import { difficulty, screen } from '../lib/store'
+	import { difficulty, screen, direction } from '../lib/store'
 	import Menu from '../components/Menu.svelte'
 	import { flip } from 'svelte/animate'
+	import { SCREEN } from '$lib/gameStatus'
 
 	const favicon = 'https://upload.wikimedia.org/wikipedia/commons/5/53/Pok%C3%A9_Ball_icon.svg'
 	$: pokemons = generateRandomPokemonNumbers($difficulty * 10)
@@ -16,13 +17,14 @@
 	let height: number
 	let cards: { [index: number]: Card } = {}
 
-	const distribute = (_node: HTMLElement) => {
+	const distribute = (_node: HTMLElement, { event }: { event: number }) => {
 		return {
 			delay: 0,
 			duration: 1000 * $difficulty,
 			tick: (t: number) => {
-				pokemonList = pokemons.slice(0, t * pokemons.length)
+				pokemonList = pokemons.slice(0, ~~(t * pokemons.length))
 			},
+			css: (t: number) => `transform: translate3d(0, ${(height * event) * (1 - t * $direction)}px, 0)`,
 		}
 	}
 
@@ -42,7 +44,7 @@
 							lastCard.addEventListener(
 								'transitionend',
 								() => {
-									$screen.game = false
+									$screen = SCREEN.VICTORY
 								},
 								{ once: true }
 							)
@@ -88,24 +90,23 @@
 
 <svelte:window bind:innerWidth={width} bind:innerHeight={height} />
 
-<div class="flex flex-wrap justify-center items-start w-screen overflow-x-hidden h-screen">
-	{#if $screen.menu}
-		<Menu />
+<div class="flex relative flex-wrap justify-center items-start w-screen overflow-x-hidden h-screen">
+	{#if $screen === SCREEN.MENU}
+		<Menu {height} />
 	{/if}
-	{#if $screen.game}
+	{#if $screen === SCREEN.GAME}
 		<div
-			class="p-2 md:p-4 min-h-screen place-content-center grid game gap-2 md:gap-4 flex-wrap"
+			class="p-2 md:p-4 absolute min-h-screen place-content-center grid game gap-2 md:gap-4 flex-wrap"
 			style:--grid-cols={columns}
 			style:--grid-rows={rows}
 			style:--card-width={`${cardWidth - gapSize}px`}
 			style:--card-height={`${cardHeight - gapSize}px`}
-			transition:distribute
-			on:outroend={() => ($screen.victory = true)}
+			in:distribute={{ event: 1 }}
+			out:distribute={{ event: -1 }}
 		>
 			{#each pokemonList as pokemon, index (index)}
 				<div animate:flip>
 					<Card
-						--index={index}
 						--pokemonImage={`url(https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon}.png)`}
 						bind:this={cards[index]}
 						{pokemon}
@@ -115,8 +116,8 @@
 			{/each}
 		</div>
 	{/if}
-	{#if $screen.victory}
-		<Victory />
+	{#if $screen === SCREEN.VICTORY}
+		<Victory {height} />
 	{/if}
 </div>
 

@@ -3,3 +3,9 @@ export enum DIFFICULTY {
 	MEDIUM = 2,
 	HARD = 3,
 }
+
+export enum SCREEN {
+	MENU,
+	GAME,
+	VICTORY,
+}
