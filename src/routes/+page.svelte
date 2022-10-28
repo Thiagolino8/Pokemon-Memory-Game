@@ -93,8 +93,7 @@
 <div class="flex relative flex-wrap justify-center items-start w-screen overflow-x-hidden h-screen">
 	{#if $screen === SCREEN.MENU}
 		<Menu {height} />
-	{/if}
-	{#if $screen === SCREEN.GAME}
+	{:else if $screen === SCREEN.GAME}
 		<div
 			class="p-2 md:p-4 absolute min-h-screen place-content-center grid game gap-2 md:gap-4 flex-wrap place-contents-center place-items-center"
 			style:--grid-cols={columns}
@@ -115,8 +114,7 @@
 				</div>
 			{/each}
 		</div>
-	{/if}
-	{#if $screen === SCREEN.VICTORY}
+	{:else if $screen === SCREEN.VICTORY}
 		<Victory {height} />
 	{/if}
 </div>
