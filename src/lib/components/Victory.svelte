@@ -2,7 +2,7 @@
 	import { SCREEN } from '$lib/gameStatus'
 	import { Confetti } from 'svelte-confetti'
 	import { fly } from 'svelte/transition'
-	import { direction, screen } from '../lib/store'
+	import { direction, screen } from '$lib/store'
 
 	export let height: number
 </script>

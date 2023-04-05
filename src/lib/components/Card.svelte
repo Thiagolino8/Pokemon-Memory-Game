@@ -18,7 +18,7 @@
 </script>
 
 <div
-	class="card w-12 md:w-28 relative flex"
+	class="card w-12 md:w-28 perspective-9xl flex"
 	class:clickable={!guessed}
 	style:--pokemon={pokemon}
 	on:click

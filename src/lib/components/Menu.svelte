@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { fly } from 'svelte/transition'
 
-	import { difficulty, direction, screen } from '../lib/store'
+	import { difficulty, direction, screen } from '$lib/store'
 
-	import { DIFFICULTY, SCREEN } from '../lib/gameStatus'
+	import { DIFFICULTY, SCREEN } from '$lib/gameStatus'
 	import Pokeballs from './Pokeballs.svelte'
 
 	export let height: number
