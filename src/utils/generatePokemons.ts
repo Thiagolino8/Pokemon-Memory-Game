@@ -6,11 +6,8 @@ export const generateRandomPokemonNumbers = (size: number) => {
 	return shuffle([...numbers, ...numbers])
 }
 
-const shuffle = (array: number[]) => {
-	array.forEach((_, i) => {
-		const j = Math.floor(Math.random() * array.length)
-		;[array[i], array[j]] = [array[j], array[i]]
-	})
-
-	return array
-}
+const shuffle = <T>(array: T[]) =>
+	array
+		.map((value) => ({ value, sort: Math.random() }))
+		.sort((a, b) => a.sort - b.sort)
+		.map(({ value }) => value)

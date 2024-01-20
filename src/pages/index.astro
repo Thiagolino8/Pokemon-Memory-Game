@@ -1,0 +1,78 @@
+---
+import Switch from "../components/Switch.svelte";
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link
+			rel="icon"
+			type="image/svg+xml"
+			href="https://upload.wikimedia.org/wikipedia/commons/5/53/Pok%C3%A9_Ball_icon.svg"
+		/>
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>Pokemon Memory Game</title>
+	</head>
+	<body class="grid relative grid-cols-1 grid-rows-1 *:col-span-1 *:row-span-1 place-content-center h-screen">
+		<Switch client:load />
+	</body>
+</html>
+
+<style is:global>
+	:root {
+		--gradient-one: linear-gradient(
+			calc(-45deg * var(--pokemon, 1)),
+			#ee7752,
+			#e73c7e,
+			#23a6d5,
+			#23d5ab
+		);
+		--gradient-two: linear-gradient(
+			calc(-45deg * var(--pokemon, 1)),
+			#23d5ab,
+			#ee7752,
+			#e73c7e,
+			#23a6d5
+		);
+		--pokeball-image: url("https://upload.wikimedia.org/wikipedia/commons/5/53/Pok%C3%A9_Ball_icon.svg")
+			center no-repeat;
+	}
+
+	p {
+		@apply p-1 font-bold text-white;
+	}
+
+	button {
+		color: white !important;
+		border-color: transparent !important;
+		&:hover {
+			color: white !important;
+			border-color: transparent !important;
+		}
+	}
+
+	.backgroundButton {
+		background: var(--gradient-two);
+		animation: gradient 15s ease infinite;
+		background-size: 400% 400%;
+	}
+
+	.cover {
+		background: var(--gradient-one);
+		background-size: 400% 400%;
+		animation: gradient 15s ease infinite;
+	}
+
+	@keyframes gradient {
+		0% {
+			background-position: 0% 50%;
+		}
+		50% {
+			background-position: 100% 50%;
+		}
+		100% {
+			background-position: 0% 50%;
+		}
+	}
+</style>

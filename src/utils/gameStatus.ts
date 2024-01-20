@@ -1,10 +1,10 @@
-export enum DIFFICULTY {
+export const enum DIFFICULTY {
 	EASY = 1,
 	MEDIUM = 2,
 	HARD = 3,
 }
 
-export enum SCREEN {
+export const enum SCREEN {
 	MENU,
 	GAME,
 	VICTORY,
